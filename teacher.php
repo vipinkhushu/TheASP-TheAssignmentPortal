@@ -36,6 +36,8 @@ if ($result->num_rows > 0) {
 session_start();
 unset($_COOKIE["auth"]);
 $res=setcookie("auth",'',time()-3600);
+unset($_COOKIE["vipin"]);
+$res=setcookie("vipin",'',time()-3600);
 if(session_destroy()) // Destroying All Sessions
 {
 header("location: index.php?next=deAct");
@@ -80,6 +82,11 @@ $conn->close();
 <!DOCTYPE html>
 <html lang="en">
   <head>
+  
+ <script type='text/javascript' src='js/jquery-1.11.1.min.js'></script> 
+  
+  
+  
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -483,9 +490,54 @@ else
 <script>
 CKEDITOR.replace('editor1');
 </script>
-<br/> <label>Last Date (DD-MM-YYYY)</label>
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
+
+<br/> <label>Last Date (YYYY-MM-DD)</label>
 	
-    <input type="date" name="date" class="form-control" required>
+    <div class="form-group">
+                <label for="dtp_input2" class="col-md-2 control-label">Date Picking</label>
+                <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
+                    <input class="form-control" size="16" type="text" name="date" value="">
+                    </span>
+					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                </div>
+            </div>
+
+<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
+<script type="text/javascript" src="js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_datetime').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
+	$('.form_date').datetimepicker({
+        language:  'en',
+        weekStart: 1,
+        todayBtn:  0,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });
+	$('.form_time').datetimepicker({
+        language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 1,
+		minView: 0,
+		maxView: 1,
+		forceParse: 0
+    });
+</script>
 
 
 	
