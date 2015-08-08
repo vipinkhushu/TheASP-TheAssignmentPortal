@@ -6,7 +6,7 @@ if ($conn->connect_error) {
 } 
 
 
-if(isset($_POST['username'])!=null)
+if(isset($_POST['username'])!=null&&isset($_POST['fullname'])!=null&&isset($_POST['email'])!=null&&isset($_POST['password'])!=null&&isset($_POST['phoneno'])!=null&&isset($_POST['college'])!=null)
 {
 $username=$_POST['username'];	
 $fullname=$_POST['fullname'];
