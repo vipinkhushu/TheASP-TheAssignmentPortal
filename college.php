@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 include('session.php');
 ?>
 <?php
@@ -462,7 +462,11 @@ $num=1;
 	<form action='assignclass.php' method='post'>
 		<input type='text' name='nameT' value='".$row["username"]."' hidden>
 	";}
-	else{echo"<span class='glyphicon glyphicon-ok' aria-hidden='true'></span><form action='assignclass.php' method='post'>
+	else{echo"<form action='deactteacher.php' method='post'>
+	<input type='name' name='actname' value='".$row["id"]."' hidden>
+	<input class='btn btn-primary' type='submit' value='Deactivate'>
+	
+	</form><form action='assignclass.php' method='post'>
 		<input type='text' name='nameT' value='".$row["username"]."' hidden>";}
 	
 echo"</td>";
@@ -536,6 +540,13 @@ $conn->close();
  });
  </script>"; 
  }
+  if($msg=='deactSuccess'){
+ echo"<script type='text/javascript'>
+ $(window).load(function(){
+	 $('#myModalmsgsde').modal('show');
+ });
+ </script>"; 
+ }
   if($msg=='ClassAdd'){
  echo"<script type='text/javascript'>
  $(window).load(function(){
@@ -599,6 +610,38 @@ $conn->close();
 	<div class="alert alert-success alert-dismissible fade in" role="alert">
 	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 	<span aria-hidden="true">×</span></button>Congrats, This <strong>Class </strong>Was Added
+	</div>
+    
+	
+  
+
+      
+  
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+       
+      </div>
+    </div>
+  </div>
+</div>
+ <div class="modal fade" id="myModalmsgsde" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+	  
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">
+		<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+			Success</h4>
+      </div>
+      <div class="modal-body">
+       
+
+	<div class="alert alert-danger alert-dismissible fade in" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<span aria-hidden="true">×</span></button>This <strong>Account </strong>Was De-Activated
 	</div>
     
 	
