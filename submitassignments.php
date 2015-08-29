@@ -438,7 +438,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-  $sqlvip = "SELECT `title`,`id`,`subject`,`lastdate` FROM `assignments` where college='$_SESSION[college]' AND course='$_SESSION[course]' AND batch='$_SESSION[batch]' AND visible='1'";
+  $sqlvip = "SELECT * FROM `assignments` where college='$_SESSION[college]' AND course='$_SESSION[course]' AND batch='$_SESSION[batch]' AND visible='1'";
 $result1 = $conn->query($sqlvip);
 $chk=0;
 if ($result1->num_rows > 0) {
@@ -451,7 +451,18 @@ if ($result1->num_rows > 0) {
 $result2 = $conn->query($sqlraju);
 	if ($result2->num_rows == 0) {	
 		
-		echo "<option value='".$row["id"]."'>".$row["subject"]." - ".$row["title"]."</option>";
+		echo "<option value='".$row["id"]."'>".$row["subject"]." - ".$row["title"]." In ";
+		if($row["word"]==1)
+			echo"MS Word, ";
+		if($row["excel"]==1)
+			echo"MS Excel, ";
+		if($row["power"]==1)
+			echo"MS Powerpoint, ";
+		if($row["image"]==1)
+			echo"Image Format (.jpg,.jpeg,.png,.gif), ";
+		if($row["pdf"]==1)
+			echo"Pdf Format, ";
+		echo"</option>";
 		$chk=1;
 	
 		
@@ -478,7 +489,7 @@ else
 	
   </div>
 	 
-  <label for="attach">Upload Assignment File(Only .Doc, .Docx, .Pdf, .Xls, .Xlsx, .Ppt, .Jpg, .Png Are Allowed)</label><br/>
+  <label for="attach">Upload Assignment File(Only File Types Specified Above Are Allowed)</label><br/>
   <input type="file" name="uploaded" class="form-group"> 
   
  
