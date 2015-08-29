@@ -584,11 +584,21 @@ echo"<div class='alert alert-info alert-dismissible fade in' role='alert'>
 $result1 = $conn->query($sql1);
 
 if ($result1->num_rows > 0) {
-echo"	<table class='table table-bordered'><tr class='info'><td><strong>#</strong></td><td><strong>Name.</strong></td><td><strong>Roll No.</strong></td><td><strong>Submitted On</strong></td><td><strong>Link</strong></td></tr>";
+echo"	<table class='table table-bordered'><tr class='info'><td><strong>#</strong></td><td><strong>Name.</strong></td><td><strong>Roll No.</strong></td><td><strong>Submitted On</strong></td><td><strong>Link</strong></td><td><strong>Grade</strong></td></tr>";
 $num=1;
 	 while($row = $result1->fetch_assoc()) {
 		 
-    	echo"<tr class='info'><td><strong>".$num."</strong></td><td><strong>".$row["name"]."</strong></td><td><strong>".$row["rollno"]."</strong></td><td><strong>".$row["submissiondate"]."</strong></td><td><strong><a href='submissions/".$id."_".$row["username"].".".$row["ext"]."' title='Download Link'><span class='glyphicon glyphicon-link' aria-hidden='true'></span></a></strong></td></tr>";
+    	echo"<tr class='info'><td><strong>".$num."</strong></td><td><strong>".$row["name"]."</strong></td><td><strong>".$row["rollno"]."</strong></td><td><strong>".$row["submissiondate"]."</strong></td><td><strong><a href='submissions/".$id."_".$row["username"].".".$row["ext"]."' title='Download Link'><span class='glyphicon glyphicon-link' aria-hidden='true'></span></a></strong></td>
+		<td><select class='form-control'>
+		<option>--Choose Grade</option>
+		<option>A+</option>
+		<option>A</option>
+		<option>B</option>
+		<option>C</option>
+		<option>D</option>
+		<option>E</option>
+		</select></td>
+		</tr>";
 
 		 $num+=1;
 	 }
