@@ -13,6 +13,64 @@ $title=$_POST['title'];
 $body=$_POST['body'];
 $date=$_POST['date'];
 $username=$user_check;
+if(isset($_POST["word"]))
+{
+	if($_POST["word"]=="on")
+		$word=1;
+	else
+		$word=0;
+}
+else
+{
+	$word=0;
+}
+if(isset($_POST["image"]))
+{
+	if($_POST["image"]=="on")
+		$image=1;
+	else
+		$image=0;
+}
+else
+{
+	$image=0;
+}
+if(isset($_POST["excel"]))
+{
+	if($_POST["excel"]=="on")
+		$excel=1;
+	else
+		$excel=0;
+}
+else
+{
+	$excel=0;
+}	
+if(isset($_POST["pdf"]))
+{
+	if($_POST["pdf"]=="on")
+		$pdf=1;
+	else
+		$pdf=0;
+}
+else
+{
+	$pdf=0;
+}
+if(isset($_POST["ppt"]))
+{
+	if($_POST["ppt"]=="on")
+		$ppt=1;
+	else
+		$ppt=0;
+}
+else
+{
+	$ppt=0;
+}
+$visible=$_POST["publish"];
+
+	
 
 $sql = "SELECT * FROM `collegedata` WHERE `id`='$class';";
 $result = $conn->query($sql);
@@ -27,7 +85,7 @@ if ($result->num_rows > 0) {
 	}
 }
 
-$sql = "INSERT INTO `assignments` (username,college,course,batch,subject,title,body,lastdate,link) VALUES ('$teachername','$college','$branch','$batch','$subject','$title','$body','$date','no')";
+$sql = "INSERT INTO `assignments` (username,college,course,batch,subject,title,body,lastdate,link,word,power,excel,image,pdf,visible) VALUES ('$teachername','$college','$branch','$batch','$subject','$title','$body','$date','no','$word','$ppt','$excel','$image','$pdf','$visible')";
 
 if ($conn->query($sql) === TRUE) {
 //echo("Data Entered");
@@ -140,8 +198,6 @@ else
 }
 
 header("location: teacher.php?message=Success");
-
-
 $conn->close();
 
 ?>
