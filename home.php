@@ -566,7 +566,26 @@ echo"<tr class='info'><td><strong>#</strong></td><td><strong>Subject</strong></t
 	}
 echo"<tr class='success'><td><strong>".$num."</strong></td><td><strong>".$row["subject"]."</strong></td><td><strong>".$row["title"]."</strong></td><td><form action='home.php' method='get'>
 	<input type='text' value='".$row["id"]."' name='id' hidden>
-		<input class='btn btn-primary' type='submit'  value='View Details'></form></td><td><strong>".$row["lastdate"]."</strong></td><td><strong>Submitted</strong></td></tr>";
+		<input class='btn btn-primary' type='submit'  value='View Details'></form></td><td><strong>".$row["lastdate"]."</strong></td><td><strong>Submitted<br/><a href='submissions/";
+		if(file_exists("submissions/".$row["id"]."_".$user_check.".pdf"))
+			echo "submissions/".$row["id"]."_".$user_check.".pdf";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".doc"))
+			echo "submissions/".$row["id"]."_".$user_check.".doc";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".docx"))
+			echo "submissions/".$row["id"]."_".$user_check.".docx";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".xls"))
+			echo "submissions/".$row["id"]."_".$user_check.".xlsx";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".ppt"))
+			echo "submissions/".$row["id"]."_".$user_check.".ppt";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".jpg"))
+			echo "submissions/".$row["id"]."_".$user_check.".jpg";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".jpeg"))
+			echo "submissions/".$row["id"]."_".$user_check.".jpeg";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".png"))
+			echo "submissions/".$row["id"]."_".$user_check.".png";
+		else if(file_exists("submissions/".$row["id"]."_".$user_check.".gif"))
+			echo "submissions/".$row["id"]."_".$user_check.".gif";
+		echo"'>[Link]</a></strong></td></tr>";
 
 		$num+=1;
 	 }}
@@ -654,6 +673,22 @@ echo"<div class='alert alert-info alert-dismissible fade in' role='alert'>
 	<div class='alert alert-warning alert-dismissible fade in' role='alert'>
 	<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
 	</button>Title:-   ".$row["title"]."
+
+	</div>
+	<div class='alert alert-warning alert-dismissible fade in' role='alert'>
+	<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+	</button>File Types Allowed For Submission:-   ";
+	if($row["word"]==1)
+		echo"MS Word (.doc,.docx),";
+	if($row["excel"]==1)
+		echo"MS Excel (.xls,.xlsx),";	
+	if($row["power"]==1)
+		echo"MS Powerpoint (.ppt),";
+	if($row["image"]==1)
+		echo"Image (.jpg,.jpeg,.png),";
+	if($row["pdf"]==1)
+		echo"PDF (.pdf),";
+	echo"
 
 	</div>
 	<div class='alert alert-warning alert-dismissible fade in' role='alert'>
