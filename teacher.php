@@ -467,9 +467,15 @@ else
 ?>
 
 	
-	
-
-	 
+	<label><br/>
+Choose Allowed File Extensions (You can chooses any many extensions as you want)
+<br/>
+<input type="checkbox" checked name="word"> MS Word File (.doc,.docx)<br/>
+<input type="checkbox" name="image"> Image File (.png,.jpg,.jpeg)<br/>
+<input type="checkbox" name="pdf"> Portable Document(.pdf)<br/>
+<input type="checkbox" name="excel"> Excel File (.xls,.xlsx)<br/>
+<input type="checkbox" name="ppt"> Powerpoint File (.ppt)<br/>
+	 </label><br/><br/>
   <label for="attach">Upload Assignment File(.Doc, .Docx, .Pdf, .Xls, .Xlsx, .Ppt, .Jpg, .Png Are Allowed)</label><br/>
   <input type="file" name="uploaded" class="form-group"> 
   
@@ -479,9 +485,9 @@ else
      
 	 
 
-    <label for="password">Title/Topic Of Assignment</label>
+    <label for="title">Title/Topic Of Assignment</label>
 	
-    <input type="text" name="title" placeholder="Title/Topic Name" class="form-control" required>
+    <input type="text" name="title" value="<?php if(isset($_GET["edit_ass_id"])){echo $_GET["edit_ass_id"];}   ?>" placeholder="Title/Topic Name" class="form-control" required>
    <br/><label>Assignment Details</label> <br/>
  <script src="ckeditor/ckeditor.js"></script>
 <textarea placeholder="Assignment Questions Here..." name="body" id="editor1">
@@ -490,54 +496,24 @@ else
 <script>
 CKEDITOR.replace('editor1');
 </script>
-    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet" media="screen">
 
-<br/> <label>Last Date (YYYY-MM-DD)</label>
+<br/> <label>Set Last Date (YYYY-MM-DD)</label>
 	
     <div class="form-group">
-                <label for="dtp_input2" class="col-md-2 control-label">Date Picking</label>
                 <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" size="16" type="text" name="date" value="">
+                    <input class="form-control" placeholder="YYYY-MM-DD" size="16" type="text" name="date" value="">
                     </span>
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
             </div>
 
-<script type="text/javascript" src="js/bootstrap-datetimepicker.js" charset="UTF-8"></script>
-<script type="text/javascript" src="js/locales/bootstrap-datetimepicker.fr.js" charset="UTF-8"></script>
-<script type="text/javascript">
-    $('.form_datetime').datetimepicker({
-        //language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		forceParse: 0,
-        showMeridian: 1
-    });
-	$('.form_date').datetimepicker({
-        language:  'en',
-        weekStart: 1,
-        todayBtn:  0,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 2,
-		minView: 2,
-		forceParse: 0
-    });
-	$('.form_time').datetimepicker({
-        language:  'fr',
-        weekStart: 1,
-        todayBtn:  1,
-		autoclose: 1,
-		todayHighlight: 1,
-		startView: 1,
-		minView: 0,
-		maxView: 1,
-		forceParse: 0
-    });
-</script>
+<label><br/>
+Do You Want To Publish This Assignment Now? 
+<br/>
+<input type="radio" checked name="publish" value=1> Publish Now<br/>
+<input type="radio" name="publish" value=0> Publish Later Form My Control Panel<br/>
+
+	 </label><br/><br/>
 
 
 	
@@ -570,7 +546,7 @@ $sql = "SELECT * FROM `assignments` where `username`='$user_check' ORDER BY `las
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    	echo"<tr class='info'><td><strong>#</strong></td><td><strong>Class</strong></td><td><strong>Title</strong></td><td><strong>Attachment</strong></td><td><strong>Details</strong></td><td><strong>Last Date</strong></td><td><strong>Hide/Show</strong></td></tr>";
+    	echo"<tr class='info'><td><strong>#</strong></td><td><strong>Class</strong></td><td><strong>Title</strong></td><td><strong>Attachment</strong></td><td><strong>Details</strong></td><td><strong>Last Date</strong></td><td><strong>Edit/Repost</strong></td><td><strong>Publish/Hide</strong></td></tr>";
 $num=1;
     while($row = $result->fetch_assoc()) {
         echo "	<tr ";
@@ -597,14 +573,18 @@ else{echo"<a href='assignment_files/".$row["id"]."_".$row["college"].".".$row["e
 
 
 	
-echo"</td><td>";
+echo"</td><td>
+<form action='teacher.php' method='get'>
+		<input type='text' value='".$row["id"]."' name='edit_ass_id' hidden>
+		<input class='btn btn-primary' type='submit'  value='Edit'></form></td>
+<td>";
 			
 	if($row["visible"]==0)
 	{
 		echo"	<form action='assignment_visible.php' method='post'>
 		<input type='text' value='".$row["id"]."' name='ass_id' hidden>
 		<input type='text' value='1' name='whattodo' hidden>
-		<input class='btn btn-primary' type='submit'  value='Visible'></form>
+		<input class='btn btn-primary' type='submit'  value='Publish'></form>
 		
 ";
 	}		
@@ -653,7 +633,7 @@ $conn->close();
  if(isset($_GET['message']))
  {
 	$message=$_GET['message'];
- if($message=='ErrorDataAdd'||$message=='Success'||$message=='ErrorExt'||$message=='ChangeSuccess'||$message='ErrorChange'){
+ if($message=='ErrorDataAdd'||$message=='Success'||$message=='ErrorExt'||$message=='ChangeSuccess'||$message='ErrorChange'||$message='ErrorEXTN'){
 echo"<script type='text/javascript'>
  $(window).load(function(){
 	 $('#myModal1').modal('show');
@@ -702,6 +682,15 @@ echo"
  <div class='alert alert-danger alert-dismissible fade in' role='alert'>
 	<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
 	<span aria-hidden='true'>×</span></button>The file you uploaded is of unsupported format
+	
+	</div>
+ "; 
+ }
+  if($message=='ErrorEXTN'){
+echo"
+ <div class='alert alert-danger alert-dismissible fade in' role='alert'>
+	<button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+	<span aria-hidden='true'>×</span></button>Please Choose The File Extensions To Set As Allowed For This Assignment
 	
 	</div>
  "; 
