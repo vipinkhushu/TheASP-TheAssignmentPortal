@@ -37,9 +37,40 @@ $filename = strtolower($filename) ;
 
  $target = "submissions/";
  $target = $target . $ran2.$ext;
-
-
-if($ext=='doc'||$ext=='docx'||$ext=='pdf'||$ext=='xls'||$ext=='xlsx'||$ext=='ppt'||$ext=='jpg'||$ext=='png')
+ $sqlchk = "SELECT * FROM `assignments` where id=$id";
+$resultchk = $conn->query($sqlchk);
+$ext_check=0;
+if ($resultchk->num_rows > 0) {
+		while($row = $resultchk->fetch_assoc()) {
+			if($row["word"]==1)
+			{
+				if($ext=="doc"||$ext=="docx")
+					$ext_check=1;
+			}
+			if($row["excel"]==1)
+			{
+				if($ext=="xls"||$ext=="xlsx")
+					$ext_check=1;
+			}
+			if($row["power"]==1)
+			{
+				if($ext=="ppt"||$ext=="pptx")
+					$ext_check=1;
+			}
+			if($row["pdf"]==1)
+			{
+				if($ext=="pdf")
+					$ext_check=1;
+			}
+			if($row["image"]==1)
+			{
+				if($ext=="jpg"||$ext=="jpeg"||$ext=="png"||$ext=="gif")
+				$ext_check=1;
+			}
+			
+		}
+}
+if($ext_check==1)
 {
 	
 $ok=1;
