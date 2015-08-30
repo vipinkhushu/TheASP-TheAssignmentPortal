@@ -5,7 +5,6 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-
 if(isset($_POST['classid'])!=null)
 {
 $class=$_POST['classid'];	
@@ -69,9 +68,6 @@ else
 	$ppt=0;
 }
 $visible=$_POST["publish"];
-
-	
-
 $sql = "SELECT * FROM `collegedata` WHERE `id`='$class';";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
@@ -85,7 +81,31 @@ if ($result->num_rows > 0) {
 	}
 }
 
-$sql = "INSERT INTO `assignments` (username,college,course,batch,subject,title,body,lastdate,link,word,power,excel,image,pdf,visible) VALUES ('$teachername','$college','$branch','$batch','$subject','$title','$body','$date','no','$word','$ppt','$excel','$image','$pdf','$visible')";
+
+
+if(isset($_POST["update"])&&$_POST["update"]==1)
+{
+	$ass_edit_id=$_POST["ass_id"];
+	echo"assignment to be updated".$ass_edit_id."<br/>";
+	$sql = "UPDATE `assignments` SET `course`='$branch',`batch`='$batch',`subject`='$subject',`title`='$title',`body`='$body',`lastdate`='$date',`word`='$word',`excel`='$excel',`pdf`='$pdf',`power`='$ppt',`image`='$image' WHERE `id`='$ass_edit_id';";
+
+if ($conn->query($sql) === TRUE) 
+{
+//echo("ass updated<br/>");
+//header("location: teacher.php?message=Success");
+} 
+else {
+   //echo "Error In Data Entering:<br>Error Details:-  " . $sql . "<br>" . $conn->error;
+header("location: teacher.php?message=ErrorDataAdd");
+   }
+
+}
+
+//NEW ASSIGNMENT CODE STARTS HERE
+
+else
+{
+	$sql = "INSERT INTO `assignments` (username,college,course,batch,subject,title,body,lastdate,link,word,power,excel,image,pdf,visible) VALUES ('$teachername','$college','$branch','$batch','$subject','$title','$body','$date','no','$word','$ppt','$excel','$image','$pdf','$visible')";
 
 if ($conn->query($sql) === TRUE) {
 //echo("Data Entered");
@@ -94,6 +114,7 @@ if ($conn->query($sql) === TRUE) {
     //echo "Error In Data Entering:<br>Error Details:-  " . $sql . "<br>" . $conn->error;
 header("location: teacher.php?message=ErrorDataAdd");
 
+}
 }
 $sql = "SELECT `id` FROM `assignments` WHERE `username`='$teachername' AND `course`='$branch' AND `batch`='$batch' AND `subject`='$subject' AND `title`='$title' AND `lastdate`='$date';";
 $result = $conn->query($sql);
@@ -111,9 +132,7 @@ $ass_id=$row["id"];
 header("location: teacher.php?message=ErrorDataAdd");
 
 }
-
-
-}
+//echo $ass_id;
 //////////UPLOAD SYSTEM
 
 if(isset($_FILES['uploaded'])) {
@@ -196,8 +215,13 @@ else
 {
 	//echo"no file2";
 }
-
 header("location: teacher.php?message=Success");
+}
+ else {
+    //echo "Error In Data Entering:<br>Error Details:-  " . $sql . "<br>" . $conn->error;
+header("location: teacher.php?message=ErrorDataAdd");
+
+}
 $conn->close();
 
 ?>
