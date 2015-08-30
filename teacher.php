@@ -437,8 +437,28 @@ $conn->close();
   <!-- Tab panes -->
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="home">
+	<?php   
+	if(isset($_GET["edit_ass_id"]))
+	{
+		echo "<h3>Edit Assignment</h3>";
+	}
+	?>
 		<form action="createassignment.php" enctype="multipart/form-data"  method="post">
 <div class="form-group"><br/>
+  <?php 
+	  if(isset($_GET["edit_ass_id"]))
+	  {
+		  echo"	<input type='text' name='ass_id' value='".$_GET["edit_ass_id"]."' hidden>";
+		  echo"<label>
+What Do You Want To Do? 
+<br/>
+<input type='radio' checked name='update' value=1> Update This Assignment &nbsp; &nbsp;&nbsp;
+<input type='radio' name='update' value=0> Create This As A New Assignment<br/>
+
+	 </label><br/><br/>";
+	  }
+		  
+	  ?>
     <label for="classid">Select Class</label>
 	<?php
 	include('pass.php');
@@ -449,35 +469,53 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
-  $sqlvip = "SELECT * FROM `collegedata` where teacher_id='$user_check' ";
+	  $sqlvip = "SELECT * FROM `collegedata` where teacher_id='$user_check' ";
 $result1 = $conn->query($sqlvip);
 
 if ($result1->num_rows > 0) {
 	echo"<select name='classid' class='form-control'>";
-	while($row = $result1->fetch_assoc()) {
-		echo "<option value='".$row["id"]."'>".$row["branch"].",".$row["batch"].",".$row["subject"]."</option>";
+	
+while($row = $result1->fetch_assoc()) {
+	if($_GET["edit_course"]==$row["branch"]&&$_GET["edit_batch"]==$row["batch"]&&$_GET["edit_subject"]==$row["subject"])
+	{
+				echo "<option value='".$row["id"]."' selected>".$row["branch"].",".$row["batch"].",".$row["subject"]."</option>";
+	
+	}
+	else
+	{
+				echo "<option value='".$row["id"]."'>".$row["branch"].",".$row["batch"].",".$row["subject"]."</option>";
+	
+	}
+	
+		
+		
 		}
 		echo"</select>";
-	
-} 
+}
 else
 {
 	echo"No Classes Assigned To You, Contact Your College Administrator";
-}
+}	
+
+	
+
+	
 ?>
 
 	
 	<label><br/>
 Choose Allowed File Extensions (You can chooses any many extensions as you want)
 <br/>
-<input type="checkbox" checked name="word"> MS Word File (.doc,.docx)<br/>
-<input type="checkbox" name="image"> Image File (.png,.jpg,.jpeg)<br/>
-<input type="checkbox" name="pdf"> Portable Document(.pdf)<br/>
-<input type="checkbox" name="excel"> Excel File (.xls,.xlsx)<br/>
-<input type="checkbox" name="ppt"> Powerpoint File (.ppt)<br/>
+
+<input type="checkbox" name="word" <?php if(isset($_GET["edit_word"])){if($_GET["edit_word"]==1){echo "checked";}}   ?>> MS Word File (.doc,.docx)<br/>
+<input type="checkbox" name="image" <?php if(isset($_GET["edit_image"])){if($_GET["edit_image"]==1){echo "checked";}}   ?>> Image File (.png,.jpg,.jpeg,.gif)<br/>
+<input type="checkbox" name="pdf" <?php if(isset($_GET["edit_pdf"])){if($_GET["edit_pdf"]==1){echo "checked";}}   ?>> Portable Document(.pdf)<br/>
+<input type="checkbox" name="excel" <?php if(isset($_GET["edit_excel"])){if($_GET["edit_excel"]==1){echo "checked";}}   ?>> Excel File (.xls,.xlsx)<br/>
+<input type="checkbox" name="ppt" <?php if(isset($_GET["edit_powet"])){if($_GET["edit_power"]==1){echo "checked";}}   ?>> Powerpoint File (.ppt)<br/>
 	 </label><br/><br/>
   <label for="attach">Upload Assignment File(.Doc, .Docx, .Pdf, .Xls, .Xlsx, .Ppt, .Jpg, .Png Are Allowed)</label><br/>
-  <input type="file" name="uploaded" class="form-group"> 
+ <?php if(isset($_GET["edit_link"])){if($_GET["edit_link"]=="yes"){echo "<a href='assignment_files/".$_GET["edit_ass_id"]."_".$_GET["edit_college"].".".$_GET["edit_ext"]."'>Uploaded File Link</a><br/>Simply Upload A New File To Replace Existing One";}}   ?>  
+<input type="file" name="uploaded" class="form-group"> 
   
  
 
@@ -487,11 +525,11 @@ Choose Allowed File Extensions (You can chooses any many extensions as you want)
 
     <label for="title">Title/Topic Of Assignment</label>
 	
-    <input type="text" name="title" value="<?php if(isset($_GET["edit_ass_id"])){echo $_GET["edit_ass_id"];}   ?>" placeholder="Title/Topic Name" class="form-control" required>
+    <input type="text" name="title" value="<?php if(isset($_GET["edit_title"])){echo $_GET["edit_title"];}   ?>" placeholder="Title/Topic Name" class="form-control" required>
    <br/><label>Assignment Details</label> <br/>
  <script src="ckeditor/ckeditor.js"></script>
 <textarea placeholder="Assignment Questions Here..." name="body" id="editor1">
-
+<?php if(isset($_GET["edit_body"])){echo $_GET["edit_body"];}  ?>
 </textarea>
 <script>
 CKEDITOR.replace('editor1');
@@ -501,7 +539,7 @@ CKEDITOR.replace('editor1');
 	
     <div class="form-group">
                 <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy-mm-dd" data-link-field="dtp_input2" data-link-format="yyyy-mm-dd">
-                    <input class="form-control" placeholder="YYYY-MM-DD" size="16" type="text" name="date" value="">
+                    <input class="form-control" placeholder="YYYY-MM-DD" size="16" type="text" name="date" value="<?php if(isset($_GET["edit_lastdate"])){echo $_GET["edit_lastdate"];}  ?>">
                     </span>
 					<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
                 </div>
@@ -516,12 +554,10 @@ Do You Want To Publish This Assignment Now?
 	 </label><br/><br/>
 
 
-	
     <br/>
-       
-        <input class="btn btn-primary" type="submit" id="" value="Create Assignment">
+    
   
-	
+	<input class='btn btn-primary' type='submit'  value='Create Assignment'>
 	 </div>
 	</form>
 	
@@ -576,6 +612,20 @@ else{echo"<a href='assignment_files/".$row["id"]."_".$row["college"].".".$row["e
 echo"</td><td>
 <form action='teacher.php' method='get'>
 		<input type='text' value='".$row["id"]."' name='edit_ass_id' hidden>
+		<input type='text' value='".$row["course"]."' name='edit_course' hidden>
+		<input type='text' value='".$row["batch"]."' name='edit_batch' hidden>
+		<input type='text' value='".$row["subject"]."' name='edit_subject' hidden>
+		<input type='text' value='".$row["title"]."' name='edit_title' hidden>
+		<input type='text' value='".$row["body"]."' name='edit_body' hidden>
+		<input type='text' value='".$row["lastdate"]."' name='edit_lastdate' hidden>
+		<input type='text' value='".$row["college"]."' name='edit_college' hidden>
+		<input type='text' value='".$row["link"]."' name='edit_link' hidden>
+		<input type='text' value='".$row["ext"]."' name='edit_ext' hidden>
+		<input type='text' value='".$row["word"]."' name='edit_word' hidden>
+		<input type='text' value='".$row["power"]."' name='edit_power' hidden>
+		<input type='text' value='".$row["excel"]."' name='edit_excel' hidden>
+		<input type='text' value='".$row["image"]."' name='edit_image' hidden>
+		<input type='text' value='".$row["pdf"]."' name='edit_pdf' hidden>
 		<input class='btn btn-primary' type='submit'  value='Edit'></form></td>
 <td>";
 			
