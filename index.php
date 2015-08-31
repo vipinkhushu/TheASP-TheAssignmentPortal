@@ -1,4 +1,4 @@
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -477,6 +477,7 @@ $next='';
 
 	
 	<form method="post" action="register.php">
+
 	<div class="form-group">
 		<span id="result_user"></span>
 		<div id="vip1">
@@ -583,8 +584,16 @@ $next='';
 		<div id="vip7"><p> <label for="batch">Batch:</label>
 		<div class="input-group">
 	<div class="input-group-addon"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span></div>
-		 
-		  <input type="text" class="form-control" name="batch" id="batch_check"  placeholder="e.g. 2014">
+<select name="batch" class="form-control" id="batch_check">
+<option value="#">--Choose One</option>
+<option value="2015">2015</option>
+<option value="2014">2014</option>
+<option value="2013">2013</option>
+<option value="2012">2012</option>
+
+
+	</select>
+		  
 		</p></div><br/>
 		</div></div>
 		
