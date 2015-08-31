@@ -1,4 +1,4 @@
-$(document).ready(function(){
+﻿$(document).ready(function(){
 
 	$('#user_check').on('keyup',function(e){
 		var query_string = $(this).val();
@@ -378,18 +378,18 @@ $('#to_hide').addClass('hide');
 			$('#login-submit').attr('value', 'Register');
 					$('#login-submit').removeAttr('disabled');
 					$('#batch_check').removeAttr('disabled');
-								$('#vip7').addClass('form-group has-success has-feedback').s('form-group has-error has-feedback');			
+					$('#vip7').addClass('form-group has-success has-feedback').s('form-group has-error has-feedback');			
 
 				}	
 });
 	
 	
-	$('#rollno_check').on('change',function(e){
+	$('#rollno_check').on('keyup',function(e){
 		var query_string = $(this).val();
 		if(query_string.length==0){
 			$('#result_user').html('');
 			$('#login-submit').attr('disabled', 'disabled');
-						$('#vip6').removeClass('form-group has-success has-feedback').addClass('form-group has-error has-feedback');			
+			$('#vip6').removeClass('form-group has-success has-feedback').addClass('form-group has-error has-feedback');			
 
 			}
 		else if(query_string.indexOf(' ')!=-1){
@@ -402,10 +402,10 @@ $('#to_hide').addClass('hide');
 			}
 		else
 				{$('#result_user').html('');
-			$('#login-submit').attr('value', 'Register');
+			        $('#login-submit').attr('value', 'Register');
 					$('#login-submit').removeAttr('disabled');
 					$('#batch_check').removeAttr('disabled');
-								$('#vip6').addClass('form-group has-success has-feedback').s('form-group has-error has-feedback');			
+				    $('#vip6').addClass('form-group has-success has-feedback').s('form-group has-error has-feedback');			
 
 				}	
 });
