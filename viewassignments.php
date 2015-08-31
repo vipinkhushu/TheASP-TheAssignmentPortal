@@ -99,7 +99,7 @@ $conn->close();
     <link href="starter-template.css" rel="stylesheet">
 
 
-
+<script type='text/javascript' src='js/assigngrade.js'></script>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -546,6 +546,7 @@ echo"<script type='text/javascript'>
         <h4 class="modal-title" id="myModalLabel">
 		<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
 		Submissions</h4>
+		
       </div>
       <div class="modal-body">
 <?php
@@ -588,16 +589,21 @@ echo"	<table class='table table-bordered'><tr class='info'><td><strong>#</strong
 $num=1;
 	 while($row = $result1->fetch_assoc()) {
 		 
-    	echo"<tr class='info'><td><strong>".$num."</strong></td><td><strong>".$row["name"]."</strong></td><td><strong>".$row["rollno"]."</strong></td><td><strong>".$row["submissiondate"]."</strong></td><td><strong><a href='submissions/".$id."_".$row["username"].".".$row["ext"]."' title='Download Link'><span class='glyphicon glyphicon-link' aria-hidden='true'></span></a></strong></td>
-		<td><select class='form-control'>
-		<option>--Choose Grade</option>
-		<option>A+</option>
-		<option>A</option>
-		<option>B</option>
-		<option>C</option>
-		<option>D</option>
-		<option>E</option>
-		</select></td>
+    	echo"<tr  id='".$row["id"]."' class='info'><td><strong>".$num."</strong></td><td><strong>".$row["name"]."</strong></td><td id='".$row["rollno"]."'><strong>".$row["rollno"]."</strong></td><td><strong>".$row["submissiondate"]."</strong></td><td><strong><a href='submissions/".$id."_".$row["username"].".".$row["ext"]."' title='Download Link'><span class='glyphicon glyphicon-link' aria-hidden='true'></span></a></strong></td>
+		<td>
+			 
+		<select id='dropd1' class='form-control' data-submission-id='".$row["id"]."'>";
+		if($row["grade"]=="A+"){echo"<option value='A+' selected>A+</option>";}else{echo"<option value='A+'>A+</option>";}
+		if($row["grade"]=="A"){echo"<option value='A' selected>A</option>";}else{echo"<option value='A'>A</option>";}
+		if($row["grade"]=="B"){echo"<option value='B' selected>B</option>";}else{echo"<option value='B'>B</option>";}
+		if($row["grade"]=="C"){echo"<option value='C' selected>C</option>";}else{echo"<option value='C'>C</option>";}
+		if($row["grade"]=="D"){echo"<option value='D' selected>D</option>";}else{echo"<option value='D'>D</option>";}
+		if($row["grade"]=="E"){echo"<option value='E' selected>E</option>";}else{echo"<option value='D'>E</option>";}
+		
+		
+		echo"</select>
+		
+		</td>
 		</tr>";
 
 		 $num+=1;
