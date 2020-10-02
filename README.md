@@ -1,5 +1,5 @@
 ﻿TheASP-TheAssignmentPortal
-A Website Which Makes The Assignment Process In Colleges And Schools Online And Making Environment Green
+An amazing Website Which Makes The Assignment Process In Colleges And Schools as well. Though it is Online And Making the Environment Green at the same time.
 
 [logo]: http://theasp.tk/images/logo.png "TheASP Logo"
 
